@@ -9,12 +9,13 @@ void binary_search_manual(void);
 uint8_t storeArrayData(uint8_t *array);
 void printArrayData(uint8_t search_index_u8, uint8_t *array);
 void binarySearch(void);
+uint8_t binarySearchNew(uint8_t num_elements_u8,uint8_t *array, uint8_t search_value_u8);
 
 int array_check[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
 int main()
 {
-    binary_search_copilot();
+    //binary_search_copilot();
     binary_search_manual();
     return 0;
 }
@@ -45,7 +46,9 @@ void binary_search_copilot(void)
     }
 }
 
-uint8_t array_for_search[];
+uint8_t array_for_search[]; //array used for binary search
+uint8_t search_value_u8; //value used for binary search
+uint8_t searchStatus_u8;    //binary search status
 
 void binary_search_manual(void)
 {
@@ -61,11 +64,17 @@ void binary_search_manual(void)
     printArrayData(search_index_u8, array_for_search);
 
 
-    // storeInitValues(&left_index_u8, &right_index_u8, &search_index_u8);
+    //get value for search in array
+    printf("Enter value for search: \n");
+    scanf("%hhd", &search_value_u8);
 
-    // binarySearch(left_index_u8, right_index_u8, &search_index_u8);
+    searchStatus_u8 = binarySearchNew(search_index_u8, array_for_search, search_value_u8);
 
-    // printResult(search_index_u8);
+    if(searchStatus_u8 == 0)
+    {
+        printf("Element not found\n");
+    }
+
 
 }
 
@@ -99,10 +108,43 @@ uint8_t storeArrayData(uint8_t *array)
 
 void printArrayData(uint8_t search_index_u8, uint8_t *array)
 {
-
+    //print stored array data
     uint8_t index_u8;
     for(index_u8 = 0; index_u8 < search_index_u8; index_u8++)
     {
         printf("Array index = %hhd; Value = %hhd \n", index_u8, array[index_u8]);
     }
+}
+
+uint8_t binarySearchNew(uint8_t num_elements_u8, uint8_t *array, uint8_t search_value_u8)
+{
+    //finally, binary search algorithm
+    uint8_t first_u8 = 0;
+    uint8_t last_u8 = num_elements_u8;
+    uint8_t mid_u8;
+    uint8_t searchStatusLocal_u8;
+    searchStatusLocal_u8 = 0;
+    
+    while (first_u8 <= last_u8)
+    {
+        mid_u8 = first_u8 + (last_u8 - first_u8)/2;
+        if(array[mid_u8] == search_value_u8)
+        {
+            //Found the search element. Report it along with index
+            printf("%d found at index %d", search_value_u8, mid_u8);
+            searchStatusLocal_u8 = 1;
+            break;
+        }
+        else if(array[mid_u8] < search_value_u8)
+        {
+            //Value to be searched is more than current value. Shift right
+            first_u8 = mid_u8 + 1;
+        }
+        else if(array[mid_u8] > search_value_u8)
+        {
+            //Value to be searched is less than current value. Shift left
+            last_u8 = mid_u8 - 1;
+        }
+    }
+    return searchStatusLocal_u8;
 }
