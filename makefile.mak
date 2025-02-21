@@ -1,24 +1,31 @@
+# Compiler
 CC = gcc
-CFLAGS = -Wall -Wextra
 
-all: my_program
+# Compiler flags
+CFLAGS = -Wall -g
 
-my_program: $(OBJS)
+# Source files
+SRCS = $(wildcard *.c)
+
+# Object files
+OBJS = $(SRCS:.c=.o)
+
+# Executable name
+EXEC = my_program
+
+# Default target
+all: $(EXEC)
+
+# Link object files to create executable
+$(EXEC): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
-main.o: main.c
-	$(CC) $(CFLAGS) -c $< -o $@
-
+# Compile source files to object files
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-run: my_program
-	./my_program
-
+# Clean up build files
 clean:
-	rm -f *.o my_program
+	rm -f $(OBJS) $(EXEC)
 
-SRCS = $(wildcard *.c)
-OBJS = $(SRCS:.c=.o)
-
-.PHONY: all clean run
+.PHONY: all clean
