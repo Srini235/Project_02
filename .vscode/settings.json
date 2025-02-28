@@ -1,3 +1,6 @@
 {
-    "makefile.makefilePath": "D:\\01_Srini_Learnings\\0103_Code\\workspace"
+    "makefile.makefilePath": "D:\\01_Srini_Learnings\\0103_Code\\workspace",
+    "files.associations": {
+        "main.h": "c"
+    }
 }
