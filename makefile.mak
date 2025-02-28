@@ -1,31 +1,22 @@
-# Compiler
-CC = gcc
 
-# Compiler flags
-CFLAGS = -Wall -g
-
-# Source files
 SRCS = $(wildcard *.c)
-
-# Object files
 OBJS = $(SRCS:.c=.o)
 
-# Executable name
-EXEC = my_program
+CC = gcc
+CFLAGS = -Wall -Wextra -fno-stack-protector
 
-# Default target
-all: $(EXEC)
+all: my_program
 
-# Link object files to create executable
-$(EXEC): $(OBJS)
+my_program: $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^
 
-# Compile source files to object files
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-# Clean up build files
-clean:
-	rm -f $(OBJS) $(EXEC)
+run: my_program
+	./my_program
 
-.PHONY: all clean
+clean:
+	rm -f *.o my_program
+
+.PHONY: all clean run
